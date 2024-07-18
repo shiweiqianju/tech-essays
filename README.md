@@ -1,1 +1,1 @@
-# essays
+# fre's essays on tech
