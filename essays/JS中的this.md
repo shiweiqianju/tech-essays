@@ -102,8 +102,8 @@ fn.call(obj);
 ```js
 var x = 10;
 var fn = function() {
-    console.log(this);
-    console.log(this.x);
+  console.log(this);
+  console.log(this.x);
 }
 fn();
  
