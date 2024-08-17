@@ -115,7 +115,7 @@
 }
 .text {
   height: 200px;
-  overflow: hidden; /* 触发 .main 盒子的 BFC 规则 */
+  overflow: hidden; /* 触发 .text 盒子的 BFC 规则 */
   background: #fcc;
 }
 </style>
