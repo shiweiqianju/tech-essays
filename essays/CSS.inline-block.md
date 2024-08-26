@@ -6,7 +6,7 @@
 ## 一、问题及解决方案
 场景：两个 div 排在一行上，各有固定宽高，其中有一个 div 内部有文字和排版等其他填充；两个 div 杂七杂八的宽度加起来远小于 father 宽度。
 
-拿到设计图之后，略想了一下，这不 so easy 么，既然有足够的宽度空间，那不就是随意发挥么：两 son 变 inline-block，那个有内容的 div 内或 padding ，或 flex，大致弄个上下等距不就 ok  了么，正好前面的人用 table-cell 来垂直居中，可以试试。然而事实证明太 naive 了，inline-block 中就藏了一个坑
+拿到设计图之后，略想了一下，这不 so easy 么，既然有足够的宽度空间，那不就是随意发挥么：两 son 变 inline-block，那个有内容的 div 内或 padding，或 flex，大致弄个上下等距不就 ok 了么，正好前面的人用 table-cell 来垂直居中，可以试试。然而事实证明太 naive 了，inline-block 中就藏了一个坑
 
 首先是思路中的效果：
 ```html
