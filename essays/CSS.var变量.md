@@ -72,5 +72,5 @@ document.body.style.removeProperty('--primary');
 ```js
 element.style.setProperty('--xxxx', xxxx, priority);
 element.style.getPropertyValue('--xxxx');
-document.body.style.removeProperty('--xxxx');
+element.body.style.removeProperty('--xxxx');
 ```
