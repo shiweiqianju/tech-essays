@@ -1,4 +1,4 @@
-# 一道关于 函数、变量 的面试题
+# JS 一道关于 函数、变量 的面试题
 ## 零、参考资料
 * [记录一个面试题目](https://www.cnblogs.com/shapeY/p/10400763.html)
 * [一道常被人轻视的前端JS面试题](https://www.cnblogs.com/xxcanghai/p/5189353.html)
