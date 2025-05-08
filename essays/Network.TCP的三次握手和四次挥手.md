@@ -48,6 +48,8 @@
 ## 常见面试:
 #### 1. 为什么连接的时候是三次握手，关闭的时候却是四次握手？  
 因为当 Server 端收到 Client 端的 SYN 连接请求报文后，可以直接发送 SYN+ACK 报文。其中 ACK 报文是用来应答的，SYN 报文是用来同步的。但是关闭连接时，当 Server 端收到 FIN 报文时，很可能并不会立即关闭 SOCKET， 所以只能先回复一个 ACK 报文，告诉 Client 端，"你发的 FIN 报文我收到了"。只有等到我 Server 端所有的报文都发送完了，我才能发送 FIN 报文，因此不能一起发送。故需要四步握手
+> 简单来说，就是当 Server 收到 Client 的关闭报文时，可能还有其他任务在处理（也可能没有），分配不出资源来关闭，所以就先给 Client 一个回复，即"你的关闭报文我收到了"，这就是第二次握手。等其他的任务处理完成了，Server 关闭了 SOCKET，发个报文给 Client，即 "我这边已经把 SOCKET 给关了"，这就是第三次握手  
+> 本质上其实就是三次握手模型，但是考虑到 Server 那边无法做到同步关闭 SOCKET，就多处一次握手来做兜底 
 
 #### 2. 为什么 TIME_WAIT 状态需要经过 2MSL(最大报文段生存时间) 才能返回到 CLOSE 状态？
 虽然按道理，四个报文都发送完毕，我们可以直接进入 CLOSE 状态了，但是我们必须假象网络是不可靠的，有可以最后一个 ACK 丢失。所以 TIME_WAIT 状态就是用来重发可能丢失的 ACK 报文。在 Client 发送出最后的 ACK 回复，但该 ACK 可能丢失。Server如果没有收到 ACK ，将不断重复发送 FIN 片段。所以 Client 不能立即关闭，它必须确认 Server 接收到了该 ACK。 Client 会在发送出 ACK 之后进入到 TIME_WAIT 状态。Client 会设置一个计时器，等待 2MSL 的时间。如果在该时间内再次收到 FIN ，那么 Client 会重发 ACK 并再次等待 2MSL。所谓的 2MSL 是两倍的 MSL(Maximum Segment Lifetime)。MSL 指一个片段在网络中最大的存活时间，2MSL 就是一个发送和一个回复所需的最大时间。如果直到 2MSL， Client 都没有再次收到 FIN，那么 Client 推断 ACK 已经被成功接收，则结束 TCP 连接
