@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>background-attachment: fixed</title>
+  <style>
+    html {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      background: #222;
+
+      /* 设置景深，并且开启3D效果 */
+      perspective: 20px;
+      transform-style: preserve-3d;
+
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    section {
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+
+      transform-style: preserve-3d;
+    }
+
+    .st1::before {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: url("./../../../assets/material/b8014a90f603738dbbd5dbbfa11bb051f919ec94.png") top center;
+      background-size: cover;
+
+      /* 将图片图层换到-1图层，并放大图片 */
+      transform: translateZ(-20px) scale(2.2);
+    }
+
+    .section2 {
+      background: rgb(68, 35,19);
+    }
+
+    .text {
+      top:30%;
+      left: 50%;
+      position: absolute;
+      font-size: 15vw;
+      font-size: 15vw;
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3),5px 5px 70px rgba(255,255,255,0.5);
+      transform: scale(1, 1.1) translate(-50%, 10%);
+    }
+
+  </style>
+</head>
+<body>
+  <section class="st1">
+    <div class="text">PARALLAX</div>
+  </section>
+
+  <section class="st2">
+    <div class="text">NORMAL</div>
+  </section>
+</body>
+</html>
