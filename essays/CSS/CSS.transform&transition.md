@@ -27,7 +27,7 @@ div {
 <div class="other"></div>
 ```
 
-![](./../assets/images/css.tranform.gif)  
+![](./../../assets/images/css.tranform.gif)  
 
 从上例中，我们可以看出，```transform``` 是突变的，并且它转变之后并不挤压其他元素在文档流中的位置。
 
@@ -56,7 +56,7 @@ div {
 <div class="other"></div>
 ```
 
-![](./../assets/images/css.transition.basic.gif)  
+![](./../../assets/images/css.transition.basic.gif)  
 
 从上面我们可以看出，```transition``` 绑定的是元素某一个已经存在的属性值，这个属性值再某种状态下发生了变化，而 ```transition``` 专注于将这种改变添加个速度曲线，使得元素平滑转变，不显得很突兀。
 
@@ -120,7 +120,7 @@ div {
 <div class="other"></div>
 ```
 
-![](./../assets/images/css.mixed.transform.transition.gif)
+![](./../../assets/images/css.mixed.transform.transition.gif)
 
 这个例子中，设置 ```.container``` 沿 y 轴正向平移 50%，那么，猜一猜平移了多少 px ？ o(￣▽￣)ｄ
 
@@ -164,7 +164,7 @@ div {
   }
 }
 ```
-![](./../assets/images/css.animation.gif)  
+![](./../../assets/images/css.animation.gif)  
 
 ## 五、最后
 CSS3 的新特性，对于 IE 来说都做不到完美兼容，如果需要照顾老项目，优先不考虑 CSS3 的这些新特性。但是，对于新项目，使用这些新的特性绝对能够带来非凡的体验

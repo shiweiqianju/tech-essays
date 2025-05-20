@@ -30,7 +30,7 @@
 * ```flex-grow``` 比值为 1:1:1:1
 * 每项扩展长度 = (800 - 600) / 4 * 1 = 50
 * 于是，每个子项目最终宽度为 ```150 + 50 =200px```
-![](./../assets/images/flex.grow.demo.01.png)
+![](./../../assets/images/flex.grow.demo.01.png)
 
 ### 例子2:
 * 当 ```flex-grow``` 比为 1:2:3:4 时，```flex-grow``` 比值总数 = 1+2+3+4 = 10
@@ -44,7 +44,7 @@
   * 150 + 40 = 190
   * 150 + 60 = 210
   * 150 + 80 = 230
-![](./../assets/images/flex.grow.demo.02.png)
+![](./../../assets/images/flex.grow.demo.02.png)
 
 
 ## 二、flex-shrink 收缩比
@@ -56,7 +56,7 @@
 * ```flex-shrink``` 比值为 1:1:1:1
 * 每项扩展长度 = abs(800 - 1200) / 4 * 1 = 100
 * 于是，每个子项目最终宽度为 ```300 - 100 = 200px```
-![](./../assets/images/flex.shrink.demo.01.png)
+![](./../../assets/images/flex.shrink.demo.01.png)
 
 ### 例子2:
 * 当 ```flex-shrink``` 比为 1:2:3:4 时，```flex-shrink``` 比值总数 = 1+2+3+4 = 10
@@ -70,7 +70,7 @@
   * 300 - 80 = 220
   * 300 - 120 = 180
   * 300 - 160 = 140
-![](./../assets/images/flex.shrink.demo.02.png)
+![](./../../assets/images/flex.shrink.demo.02.png)
 
 ### 例子3：（注：该 demo 中需要在子项中填写一些内容才能观察出来）
 * 当 ```flex-shrink``` 比值过于大时，如 1:2:3:18
@@ -81,7 +81,7 @@
   * 子项目 2 的最终长度 = 300 - abs( 800 - 1200 ) / 24 * 2 - 18 / ( 1 + 2 + 3 ) * 2 = 260.66
   * 子项目 3 的最终长度 = 300 - abs( 800 - 1200 ) / 24 * 3 - 18 / ( 1 + 2 + 3 ) * 3 = 241
   * 子项目 4 的最终长度 = 18(min-content)
-![](./../assets/images/flex.shrink.demo.03.png)
+![](./../../assets/images/flex.shrink.demo.03.png)
 
 ## 三、flex-basic 默认长度
 
@@ -97,7 +97,7 @@
 在 ```flex box```布局中，如果想完全忽略 ```flex``` 子项目的尺寸，则可以将 ```flex-basis``` 设置为 0。这样的设置，基本上是告诉了浏览器，```flex``` 容器所有空间都可以按照相关的比例进行分配 
 
 ### （四）未显示设置 ```width``` 时到其他值演示
-![](./../assets/images/flex.basic.all.png)
+![](./../../assets/images/flex.basic.all.png)
 
 ### （五）与 ```min-width``` 和 ```max-width``` 的反应
 当 ```flex``` 子项目显式的设置了 ```min-width``` 或 ```max-width``` 的值时，就算 ```flex``` 子项目显式的设置了 ```flex-basis``` 的值，也会按 ```min-width``` 和 ```max-width``` 设置 ```flex``` 子项目宽度。当计算的值大于 ```max-width``` 时，则按 ```max-width``` 设置 flex 子项目宽度；当计算的值小于 ```min-width``` 时，则按 ```min-width``` 设置 flex 子项目宽度

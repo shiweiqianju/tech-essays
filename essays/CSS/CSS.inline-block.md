@@ -32,7 +32,7 @@
 </div>
 ```
 
-![](./../assets/images/inline-block.ideal.png)
+![](./../../assets/images/inline-block.ideal.png)
 
 很快啊，上面没什么问题（因为父元素的宽度足够，两个子元素之间的间隙可以忽略，当然这里也会出现隐藏坑，后叙）。于是很开心地去填充内容了，dom 结构变成：
 ```html
@@ -48,13 +48,13 @@
 
 愉快地 ctrl + s 之后 F5，然后就懵逼了，这不对啊，怎么成这样了，刚才不还好好的么，就加了句话？？?
 
-![](./../assets/images/inline-block.error.png)
+![](./../../assets/images/inline-block.error.png)
 
 于是经过翻山越岭地 Google baidu 之后，找到了参考中的资料：css 有个属性 vertical-align，它只在 display为 inline 或者 inline-block 的情况下起作用，默认值是 baseline。这意味着把元素设置成 inline(-block) 的时候，内部的文字会按照基线对齐，这也是为什么用尺子量，“55” 正好切了前一个 inbox 的 bottom。
 
 那解决办法就简单了，每个 inbox 设置 vertical-align: top（如果父元素的高度是撑开的话，设置成middle、bottom、text-bottom、text-top 都可以），就可以回归思路，如下图：
 
-![](./../assets/images/inline-block.fixed.png)
+![](./../../assets/images/inline-block.fixed.png)
 
 ## 二、其他：
 在第一张图我们也看到， inline-block 的盒子之间是存在一点间隙的，这个问题和 HTML 的结构有关。正如上面我们贴的代码，两个 inbox 之间有一个换行，而浏览器在解释的时候遇到 inline(-block) 会把这个换行符解释成一个空白文本节点，这在视觉上就出现了间隙。解决办法有很多，贴两个常见的：

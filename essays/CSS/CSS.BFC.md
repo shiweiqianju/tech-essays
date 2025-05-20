@@ -59,7 +59,7 @@
 </style>
 ```
 
-![](./../assets/images/CSS.BFC.rule-02.gif)  
+![](./../../assets/images/CSS.BFC.rule-02.gif)  
 
 按照如上写法， ```.aside``` 与 ```.text``` 之间的空白区域高度是 ```200px```(因为不属于同一个 ```BFC```)，而把 ```.text``` 的样式注释掉，空白区域变成 ```100px```(两者同属于根元素的 BFC)，见下图：
 
@@ -88,7 +88,7 @@
 </style>
 ```
 
-![](./../assets/images/CSS.BFC.rule-03.gif)    
+![](./../../assets/images/CSS.BFC.rule-03.gif)    
 
 因此，通常使用的 ```overflow: hidden;``` 方法来清除浮动就是利用的 ```BFC``` 的触发条件 3 来实现的。
 
@@ -121,6 +121,6 @@
 </style>
 ```
 
-![](./../assets/images/CSS.BFC.rule-04.gif)    
+![](./../../assets/images/CSS.BFC.rule-04.gif)    
 
 上面盒子 ```.aside``` 左浮动(同时覆盖部分 ```.main``` 盒子)，因此 ```.text``` 盒子在没有触发 ```BFC``` 的情况下会被覆盖。而后来 ```.text``` 盒子触发 ```BFC``` ，根据规则 4 ，就会显示成两栏布局的样子

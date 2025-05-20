@@ -1,6 +1,6 @@
 # CSS 盒子模型
 
-![CSS 盒子模型](./../assets/images/box-model.jpg "box model")
+![CSS 盒子模型](./../../assets/images/box-model.jpg "box model")
 
 1. 常见的块级元素均具有盒子模型的特征
 2. 语法：
