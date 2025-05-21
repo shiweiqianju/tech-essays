@@ -4,7 +4,7 @@
 * [Rxjs入门指南](https://juejin.cn/post/7340084472333107211)
 * [RxJS 快速入门](https://zhuanlan.zhihu.com/p/53618435)
 * [最简Rxjs入门教程--别再被Rxjs的概念淹没了](https://juejin.cn/post/7003328753556258846)
-* [理解 RxJS ：四次元编程](https://blog.crimx.com/2018/02/16/understanding-rxjs/)
+* [理解 RxJS：四次元编程](https://blog.crimx.com/2018/02/16/understanding-rxjs/)
 
 ## 一、简介
 Rxjs, FRP(响应式编程) 和 FP(函数式编程) 思想的结合，JavaScript的扩展库，是一个基于可观察序列的库，用于处理异步事件和编写基于事件驱动的程序。它是 ReactiveX（Reactive Extensions）的 JavaScript 实现之一，提供了丰富的操作符和工具，用于处理和组合异步数据流。  
@@ -113,7 +113,42 @@ setTimeout(() => {
 在控制台中，我们可以看到，1s 后，流被"关闭"了，而且，后续的结果也不会被输出了。但是这里需要注意的是，我们虽然"关闭"了流，但是在构造函数中，3s 和 4s 的定时器仍然是会执行的，只是内部的 ```observer.next``` 和 ```observer.complete``` 不会被执行(即作为 ```next``` 和 ```complete``` 的回调不会执行)。  
 **另外， ```subscribe``` 和 ```unsubscribe``` 不是在同一个对象上的！！！**
 
-1. 对于同一流，是否可以多次启动(订阅)？
+2. 构造函数中的任务管理(副作用管理)
+在构造 ```Observable``` 的时候，我们传入的是一个订阅函数，这个函数描述了 ```Observer``` 订阅之后流应该做的动作。既然这是一个函数，那么是否可以有返回值呢？  
+是可以的，而且我们通常可以通过这个返回值来管理一些任务(副作用)，比如下面的代码：
+```js
+import { Observable } from "rxjs";
+
+// 定义一个 Observable
+const stream$ = new Observable(subscriber => {
+  const intervalId = setInterval(() => {
+    // console.log('interval');
+    subscriber.next('hi');
+  }, 1000);
+ 
+  return function unsubscribe() {
+    // console.log('constructor unsubscribe');
+    clearInterval(intervalId);
+  };
+});
+
+// 启动
+const subscription = stream$.subscribe({
+  complete: () => console.log('complete'),
+  next: v => console.log(v),
+  error: () => console.log('error'),
+});
+
+setTimeout(() => {
+  subscription.unsubscribe();
+}, 5000);
+```
+
+在上面的代码中，我们可以先把构造函数中的 ```return``` 语句注释掉看看结果：控制台中每隔 1s 打印出一个 'hi'，即使在 5s 后，我们取消了订阅，控制台仍然保持输出，所以这就带来了副作用。  
+接着，我们把 ```return``` 语句打开看看结果：控制台中每隔 1s 打印出一个 'hi'，在 5s 后，控制台不再输出了，这就证明了 ```return``` 语句中的代码被执行了。  
+所以，构造器中的入参函数，其返回值如果是一个函数，我们就可以在这个函数中进行副作用管理，这其实和 React 的 ```useEffect``` 思路是一样的。
+
+3. 对于同一流，是否可以多次启动(订阅)？
 回答：可以的，比如下面的代码：
 ```js
 import { Observable } from "rxjs";
