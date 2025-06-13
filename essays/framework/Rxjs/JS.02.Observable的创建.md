@@ -74,6 +74,8 @@ const subscription = stream$.subscribe(observer);
 ```
 
 #### 同/异步
+整体而言，基本还是遵循 js 的同/异步规则，但是多了一层 ```observer.complete();``` 以及 ```observer.error();``` 的规则细化
+
 1. 构造函数中的异步任务(注意与 ```observable.next``` 区分)
 ```js
 import { create } from "rxjs";
@@ -138,7 +140,7 @@ console.log('end');
 // output:
 // start
 // 1
-// 2
+// 3
 // complete
 // end
 ```
