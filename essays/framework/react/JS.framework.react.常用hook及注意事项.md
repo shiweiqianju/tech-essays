@@ -31,6 +31,101 @@ export default Counter;
 1. 不能直接修改 ```state```，而应该调用同时返回的 ```setter``` 函数去修改，否则不会触发视图的重新渲染
 2. 如果新值依赖旧值，推荐使用回调函数的形式给 ```setter``` 传参，比如 ```setCount(prevCount => prevCount + 1)```。这样可以确保在异步操作或者连续多次更新时，获取到的最新状态值，避免出现意外结果
 
+### 一些坑点以及代码示例
+#### 更新队列
+```jsx
+// number 初始为 0
+<button onClick={() => {
+  setNumber(number + 1);
+  setNumber(number + 1);
+  setNumber(number + 1);
+}}>+3</button>
+```
+这段代码很常见，那么最终结果只会取最后一个 ```setNumber(number + 1);```，即 number 最后为 1。  
+
+规避方法是传入更新函数：
+```jsx
+// number 初始为 0
+<button onClick={() => {
+  setNumber(number + 1);
+  setNumber(number + 1);
+  setNumber(number + 1);
+}}>Click</button>
+```
+这样，终值才是 3。
+
+那如果混合着写呢？比如：
+```jsx
+/** case 1 */
+// number 初始为 0
+<button onClick={() => {
+  setNumber(n => n + 1);  /** 生效 */
+  setNumber(n => n + 1);  /** 生效 */
+  setNumber(n => n + 1);  /** 生效 */
+}}>Click</button>
+// 终值是 3
+
+/** case 2 */
+// number 初始为 0
+<button onClick={() => {
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
+
+  setNumber(n + 2);
+  setNumber(n + 1); /** 生效 */
+}}>Click</button>
+// 终值是 1
+
+/** case 3 */
+// number 初始为 0
+<button onClick={() => {
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
+
+  setNumber(n + 2); /** 生效 */
+  setNumber(n => n + 1); /** 生效 */
+}}>Click</button>
+// 终值是 3
+```
+
+所以这才是 React 最吊诡的地方。官方的文档是：
+> 总而言之，以下是你可以考虑传递给 setNumber state 设置函数的内容：
+> * 一个更新函数（例如：n => n + 1）会被添加到队列中。
+> * 任何其他的值（例如：数字 5）会导致“替换为 5”被添加到队列中，已经在队列中的内容会被忽略。  
+> 
+> 事件处理函数执行完成后，React 将触发重新渲染。在重新渲染期间，React 将处理队列。更新函数会在渲染期间执行，因此 更新函数必须是 纯函数 并且只 返回 结果。不要尝试从它们内部设置 state 或者执行其他副作用。在严格模式下，React 会执行每个更新函数两次（但是丢弃第二个结果）以便帮助你发现错误。
+
+#### 2. 状态重置
+我们知道，React 内部是会生成一颗渲染树的，而 React 通过组件在渲染树中的位置将它保存的每个状态与正确的组件关联起来，即，组件内部的 state 会不会和同名的组件共享的依据是其在渲染数中的位置决定的，具体示例如下：
+```jsx
+// Child component
+function Counter({ /* ... */}) {
+  /* ... */
+
+  return (<> {/* ...  */} </>);
+}
+
+// Parent component
+function Container() {
+  /* ... */
+
+  if (/* conditions */) {
+    // Counter-1，内部有自己的 state
+    return <Counter prop={true} /> 
+  } else {
+    // Counter-2，内部有自己的 state
+    return <Counter prop={false} /> 
+  }
+}
+```
+
+切换不同的条件，两个 ```Counter``` 中的 state 是共享的，因为对于 React 来说，无论条件怎么变化，渲染树中该位置始终是 ```Counter```，就认为是同一个组件，应当共享 state，这里就会造成 bug(当然，一般也不会使用这样子的代码风格)。
+
+那么，渲染树上相同位置的组件该如何重置状态呢？最推荐的做法就是使用 ```key```。
+> 这里的 key 不是全局唯一的。它们只能指定 父组件内部 的顺序
+
 ## 二、useEffect
 使用频率极高的成员之二，专门处理组件的可能存在的各种副作用。这个函数覆盖了 React 组件的生命周期的特定阶段，包括挂载、更新或卸载时，执行某些回调。当然，无论是数据的获取、对外部事件的订阅，亦或者对 DOM 进行操作，均通过这个函数实现。
 ```jsx
