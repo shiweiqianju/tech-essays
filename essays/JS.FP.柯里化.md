@@ -186,7 +186,7 @@ let curry = fn => {
 
   return function curriedFn(...args) {
     if (args.length < len) {
-      return function () {
+      return function () { // 这个是用来收集原函数剩下来的参数的
         return curriedFn.apply(null, args.concat([].slice.call(arguments)));
       }
     }
@@ -217,7 +217,7 @@ let curry = fn => {
 add(1)(2)(3) = 6;
 add(1, 2, 3)(4) = 10;
 add(1)(2)(3)(4)(5) = 15;
- 
+
 function add() {
   // 第一次执行时，定义一个数组专门用来存储所有的参数
   var _args = Array.prototype.slice.call(arguments);
