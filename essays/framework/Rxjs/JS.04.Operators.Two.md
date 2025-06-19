@@ -214,9 +214,9 @@ zip(age$, name$, isDev$)
     // 滚动的相关逻辑
     const video = document.querySelector('#video');
     const anchor = document.querySelector('#anchor');
-    const scroller$ = fromEvent(document, 'scroll');
+    const scroll$ = fromEvent(document, 'scroll');
 
-    scroller$
+    scroll$
       .pipe(map(e => anchor.getBoundingClientRect().bottom < 0))
       .subscribe(canFixed => {
         video.classList.toggle('video-fixed', canFixed);
