@@ -81,22 +81,6 @@ buffered.subscribe(x => console.log(x));
 // ...
 ```
 
-### bufferTime
-针对时间特化版本的 buffer，比如上面的示例，使用 bufferTime 改写如下：
-```js
-const source = interval(300);
-const buffered = source.pipe(bufferTime(1000));
-
-buffered.subscribe(x => console.log(x));
-
-// outputs
-// [0, 1, 2] // 1000ms
-// [3, 4, 5] // 2000ms
-// [6, 7, 8, 9] // 3000ms
-// [10, 11, 12] // 4000ms
-// ...
-```
-
 ### bufferCount
 针对 数量 特化版本的 buffer，demo 以及输出如下：
 ```js
@@ -165,7 +149,7 @@ example.subscribe(x => console.log(x));
 * 意料之外，情理之中
 
 当然还有很多细节，比如：
-* 在入参函数(```delayCallback```)中加入 ```console```，会发现```delayCallback```并不是一次性执行的，而是随着 源 ```source``` 的输出而执行的(同/异步)，于是结合上面的案例，就可能出现这样的情况：因为 ```example``` 中某些时序点(比如排在前面的一些时序点)达到了输出条件，就会调用 ```subscribe``` 中的 ```callback(subscribeCallback)```，而一些时序点可能还没有进行延迟运算(未调用 ```delayCallback```)，所以会看到 ```delayCallback``` 的 ```console``` 穿插着一些 ```subscribeCallback``` 的 ```console```
+* 在入参函数(```delayCallback```)中加入 ```console```，会发现```delayCallback```并不是一次性执行的，而是随着 源 ```source``` 的输出而执行的(同/异步)，于是结合上面的案例，就可能出现这样的情况：因为 ```example``` 中某些时序点(比如排在前面的一些时序点)达到了输出条件，就会调用 ```subscribe``` 中的 ```next```，而一些时序点可能还没有进行延迟运算(未调用 ```delayCallback```)，所以会看到 ```delayCallback``` 的 ```console``` 穿插着一些 ```next``` 的 ```console```
 * 入参函数(```delayCallback```)的 ```x``` 入参，对应的是 源 ```source``` 每个时序点上的 ```value```
 
 ## 二、跟随移动的 demo

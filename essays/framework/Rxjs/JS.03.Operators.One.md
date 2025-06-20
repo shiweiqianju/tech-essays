@@ -5,7 +5,7 @@
 
 ## 零五式、特别注意
 * <strong><font color=red>不同版本的 Operators 的返回值略有差异，这导致了返回值以及入参的方法有变动，具体查看各个版本的文档</font></strong>
-* * <strong><font color=red>高版本的 Rxjs 需要使用 ```pipe``` 进行链式操作，这和以前的版本的使用方式是不一样的</font></strong>
+* <strong><font color=red>高版本的 Rxjs 需要使用 ```pipe``` 进行链式操作，这和以前的版本的使用方式是不一样的</font></strong>
 
 ## 一、基本概念
 这个基本上对应于 Array 中的一些高阶 API，均是纯函数。
