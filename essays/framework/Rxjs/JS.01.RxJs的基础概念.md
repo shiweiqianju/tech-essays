@@ -211,16 +211,14 @@ setTimeout(() => { // 延迟 1s 启动另一个
 ```js
 import { Subject } from "rxjs";
 
-const { Subject } = rxjs;
-
 const subject$ = new Subject();
 
-// 订阅一个 subject
+// 添加一个 Observer
 subject$.subscribe(v => console.log('stream $1', v));
-// 再订阅一个 subject
+// 再添加一个 Observer
 subject$.subscribe(v => console.log('stream $2', v));
 
-// 再订阅一个 subject
+// 再添加一个 Observer
 setTimeout(() => {
   subject$.subscribe(v => console.log('stream $3', v));
 }, 2000);
@@ -251,6 +249,117 @@ setTimeout(() => {
 可以看到，```Subject``` 采用的就是发布订阅模式，```subscribe``` 去订阅，```next``` 触发。  
 其实，这里我们就能发现 ```Subject``` 和 ```Observable``` 的区别了，```Observable``` 的执行流的产生是在 ```subscribe``` 的时候，这意味着每次调用 ```subscribe``` 都会产生一份独一无二的执行流，并和一个 ```Observer``` 绑定，这样就形成了一对一的关系(单播)。  
 而 ```Subject``` 则不同，其 ```subscribe``` 只是维护一个列表，每次调用 ```next``` 都会通知所有的 ```Observer```，这就形成了一对多的关系(组播/多播)。
+
+#### BehaviorSubject
+Subject 的一个变种，需要一个初始值。整体的功能是，如果任意时间添加了新的 Observer，那么会立即发出当前值，demo 如下：
+```js
+const { 
+  BehaviorSubject
+} = rxjs;
+
+const subject$ = new BehaviorSubject(-1); // 初始值
+
+const obA = {
+  next: val => console.log(`A next: ${val}`),
+  error: err => console.log(`A err: ${err}`),
+  complete: () => console.log(`A complete!`),
+};
+
+const obB = {
+  next: val => console.log(`B next: ${val}`),
+  error: err => console.log(`B err: ${err}`),
+  complete: () => console.log(`B complete!`),
+};
+
+// 添加一个 Observer
+subject$.subscribe(obA);
+
+subject$.next(1);
+subject$.next(2);
+subject$.next(3);
+
+setTimeout(() => {
+  subject$.complete('end');
+}, 2000);
+
+setTimeout(() => {
+  // 添加一个 Observer
+  subject$.subscribe(obB);
+}, 5000);
+```
+
+#### ReplaySubject
+ReplaySubject 的一个变种，需要一个参数，表示一个数量。按照官网的说法，当一个新的 Observer 被添加时，会以当前时序点开始，向前追溯这个数量的时序点，并把这些时序点的值发送给新的 Observer
+> 两个注意点：
+>   * 发送给新的 Observer 是按照源 Subject 的时序顺序来的
+>   * 如果 Subject 已经 complete，complete 是不在这个数量范围内的
+
+```js
+const subject$ = new ReplaySubject(2);
+
+const obA = {
+  next: val => console.log(`A next: ${val}`),
+  error: err => console.log(`A err: ${err}`),
+  complete: () => console.log(`A complete!`),
+};
+
+const obB = {
+  next: val => console.log(`B next: ${val}`),
+  error: err => console.log(`B err: ${err}`),
+  complete: () => console.log(`B complete!`),
+};
+
+// 添加一个 Observer
+subject$.subscribe(obA);
+
+subject$.next(1);
+subject$.next(2);
+subject$.next(3);
+
+setTimeout(() => {
+  subject$.complete('end');
+}, 2000);
+
+setTimeout(() => {
+  // 添加一个 Observer
+  subject$.subscribe(obB);
+}, 5000);
+```
+
+#### AsyncSubject
+AsyncSubject 的一个变种，功能上只会发射 complete 前的最后一个值给所有的 Observer(当然，不管这个 Observer 是何时被添加的)，demo 如下：
+```js
+
+const subject$ = new AsyncSubject();
+
+const obA = {
+  next: val => console.log(`A next: ${val}`),
+  error: err => console.log(`A err: ${err}`),
+  complete: () => console.log(`A complete!`),
+};
+
+const obB = {
+  next: val => console.log(`B next: ${val}`),
+  error: err => console.log(`B err: ${err}`),
+  complete: () => console.log(`B complete!`),
+};
+
+// 添加一个 Observer
+subject$.subscribe(obA);
+
+subject$.next(1);
+subject$.next(2);
+subject$.next(3);
+
+setTimeout(() => {
+  subject$.complete('end');
+}, 2000);
+
+setTimeout(() => {
+  // 添加一个 Observer
+  subject$.subscribe(obB);
+}, 5000);
+```
 
 ## 四、一些其他的相关概念
 ### （一）、Hot & Cold

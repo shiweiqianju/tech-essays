@@ -4,8 +4,21 @@
 * [30 天精通 RxJS](https://blog.jerry-hong.com/series/rxjs)
 
 ## 一、APIs
-### scan
+### reduce
 Observable 版本的 reduce，但是返回值永远是 Observable，示例如下：
+```js
+const clicksInFiveSeconds = fromEvent(document, 'click')
+  .pipe(takeUntil(interval(5000)));
+
+const ones = clicksInFiveSeconds.pipe(map(() => 1));
+const seed = 0;
+const count = ones.pipe(reduce((acc, one) => acc + one, seed));
+
+count.subscribe(x => console.log(x));
+```
+
+### scan
+加强版的 reduce，与 reduce 不同的是，reduce 的输出流只有一个时序点(元素)，scan 则是一一对应式地生成时序点(元素)，具体可对比两者的弹珠图，demo 如下：
 ```html
 <!DOCTYPE html>
 <html lang="en">
