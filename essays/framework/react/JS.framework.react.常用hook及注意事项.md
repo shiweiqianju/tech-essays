@@ -47,9 +47,9 @@ export default Counter;
 ```jsx
 // number 初始为 0
 <button onClick={() => {
-  setNumber(number + 1);
-  setNumber(number + 1);
-  setNumber(number + 1);
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
+  setNumber(n => n + 1);
 }}>Click</button>
 ```
 这样，终值才是 3。

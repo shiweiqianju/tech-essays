@@ -26,7 +26,7 @@
 > HTTP 1.0 的产物，有个明显的缺点是浏览器会使用本地系统的时间点来进行比对，而系统的时间则是可以自由设置的，这就容易出现很多问题
 
 ## 三、协商缓存策略
-### If-Modified-Since / Last-Modified
+### Last-Modified / If-Modified-Since
 * Last-Modified：浏览器在第一次访问资源的情况下，服务器会在返回资源的同时，在 response header 中添加 Last-Modified 字段，其值就是该资源在服务器中最后的修改时间
 * If-Modified-Since：浏览器在重复请求一个资源时，如果检测到 Last-Modified 这个 Header，则添加该字段，其值为 Last-Modified 中的值；而服务器则会将该值与真实资源的最后修改时间对比，如果没有变化则返回 304 和空的响应体，浏览器读取缓存，否则表示资源有更新，返回 200 和新的资源
 
